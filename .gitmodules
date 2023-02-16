@@ -1,0 +1,6 @@
+[submodule "sources/cfm"]
+	path = sources/cfm
+	url = https://github.com/clusterfarmem/cfm.git
+[submodule "sources/voltdb"]
+	path = sources/voltdb
+	url = https://github.com/VoltDB/voltdb.git

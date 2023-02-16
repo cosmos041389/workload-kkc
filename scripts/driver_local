@@ -1,0 +1,61 @@
+#! /bin/bash
+
+# Local variable
+
+# Global variable
+export dir_local=/home/$USER/workload-kkc # Default path
+export dir_local_datasets=$dir_local/datasets/
+export dir_local_deps=$dir_local/deps/
+export dir_local_docs=$dir_local/docs/
+export dir_local_evaluation=$dir_local/evaluation/
+export dir_local_scripts=$dir_local/scripts/
+export dir_local_scripts2=$dir_local/scripts2/
+export dir_local_sources=$dir_local/sources/
+export dir_local_temp=$dir_local/temp/
+
+##################################################################
+##################################################################
+
+# Functions
+
+function runFromDriver(){
+  bash $dir_local/scripts/run_$1.sh
+}
+function printUsage(){
+  echo "Usage: $0 <init | build | run>"
+  echo "init: Resolve git submodules, packages, binaries"
+  echo "build: Build every sources to be runnable"
+  echo "run: Execute script to test workload"
+}
+function printUsageRun(){
+  echo "ERROR: '$0 run' requires 1 argument at least"
+  echo "Usage: $0 run <workload1> [workload2] ..."
+}
+
+##################################################################
+##################################################################
+
+# Execution
+
+case $1 in
+init)
+  bash initFromDriver;
+  ;;
+build)
+  bash buildFromDriver;
+  ;;
+run)
+  if [ $# -eq 1 ]; then
+    printUsageRun;  
+  else
+    for ((i=2; i<=$#; i++)); do
+      sudo bash -c "echo 3 > /proc/sys/vm/drop_cache"
+      echo "Performing ${!i} in 3 seconds."; sleep 3;
+      runFromDriver ${!i};
+    done
+  fi
+  ;;
+*)
+  printUsage;
+  ;;
+esac
