@@ -4,3 +4,9 @@
 [submodule "sources/voltdb"]
 	path = sources/voltdb
 	url = https://github.com/VoltDB/voltdb.git
+[submodule "sources/mitosis-workload-btree"]
+	path = sources/mitosis-workload-btree
+	url = https://github.com/mitosis-project/mitosis-workload-btree.git
+[submodule "sources/mitosis-workload-hashjoin"]
+	path = sources/mitosis-workload-hashjoin
+	url = https://github.com/mitosis-project/mitosis-workload-hashjoin.git

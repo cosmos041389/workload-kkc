@@ -1,0 +1,45 @@
+#! /bin/bash
+
+# Variable
+
+# Local variable
+
+##################################################################
+##################################################################
+
+# Functions
+
+function buildVoltdb(){
+local VOLTDB=$dir_local/sources/voltdb
+cd $VOLTDB;
+ant clean && ant;
+}
+
+function buildQuicksort(){
+local QUICKSORT=$dir_local/sources/cfm/quicksort
+cd $QUICKSORT;
+make quicksort;
+}
+
+function buildSpark(){
+cd $dir_local_scripts
+bash build_spark.sh
+}
+
+function buildGraphx(){
+cd $dir_local_scripts
+bash build_graphx.sh
+}
+
+function buildFromDriver(){
+buildVoltdb;
+buildQuicksort;
+buildSpark;
+buildGraphx;
+}
+
+##################################################################
+##################################################################
+
+# Execution
+buildFromDriver;

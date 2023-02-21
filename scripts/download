@@ -16,7 +16,7 @@ list_file=("dAerospike" "dSpark" "dScala" "dYcsb" "dGraphx")
 # External binaries
 # Aerospike
 function dAerospike(){
-	if [ ! -f "${dir_local_sources}/aerospike.tgz" ]
+	if [ ! -f "${dir_local_sources}/aerospike.rpm" ]
 	then
 	  wget -O ${dir_local_sources}/aerospike.rpm https://github.com/aerospike/aerospike-server/releases/download/6.2.0.2/aerospike-server-community-6.2.0.2-1.el8.x86_64.rpm
 	  sudo rpm -Uvh ${dir_local_sources}/aerospike.rpm
@@ -26,8 +26,8 @@ function dAerospike(){
 function dSpark(){
 	if [ ! -f "${dir_local_sources}/spark.tgz" ]
 	then
-		wget -O ${dir_local_sources}/spark.tgz https://downloads.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz
-	  tar -xzvf ${dir_local_sources}/spark.tgz
+	  wget -O ${dir_local_sources}/spark.tgz https://downloads.apache.org/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz
+	  tar -xzvf ${dir_local_sources}/spark.tgz -C ${dir_local_sources}/
 	fi
 }
 # YCSB
@@ -52,7 +52,7 @@ function dScala(){
 # External datasets
 # GrpahX
 function dGraphx(){
-	if [ ! -d ${dir_local_sources}/spark-3.3.1-bin-hadoop3/ ]
+	if [ ! -d ${dir_local_sources}/spark-3.3.2-bin-hadoop3/ ]
 	then
 		echo "Spark setup must be preceded."
 		echo "Consider carrying out 'make spark graphx' first."
@@ -77,7 +77,7 @@ if [ $# -eq 0 ]
 then
 	for arg in "${list_file[@]}"
 	do
-	  if [ "$arg" == "dSpark" ]; then continue; fi
+#	  if [ "$arg" == "dSpark" ]; then continue; fi
 	  $arg
 	done
 else

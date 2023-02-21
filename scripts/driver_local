@@ -4,6 +4,7 @@
 
 # Global variable
 export dir_local=/home/$USER/workload-kkc # Default path
+export dir_local_conf=$dir_local/conf
 export dir_local_datasets=$dir_local/datasets/
 export dir_local_deps=$dir_local/deps/
 export dir_local_docs=$dir_local/docs/
@@ -39,17 +40,17 @@ function printUsageRun(){
 
 case $1 in
 init)
-  bash initFromDriver;
+  bash init_from_driver;
   ;;
 build)
-  bash buildFromDriver;
+  bash build_from_driver;
   ;;
 run)
   if [ $# -eq 1 ]; then
     printUsageRun;  
   else
     for ((i=2; i<=$#; i++)); do
-      sudo bash -c "echo 3 > /proc/sys/vm/drop_cache"
+      sudo bash -c "echo 3 > /proc/sys/vm/drop_caches"
       echo "Performing ${!i} in 3 seconds."; sleep 3;
       runFromDriver ${!i};
     done

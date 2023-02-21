@@ -1,14 +1,10 @@
 #! /usr/bin/bash
-set -e
 
 # Varaible
 
 # Local
-YCSB_HOME= ${dir_local}/sources/ycsb-0.17.0
-options=("as.host" "as.port" "as.user" "as.password" "as.timeout" "as.namespace")
-defaults=("default:localhost" "default:3000" "default:none" "default:none" "default:10000(ms)" "default:ycsb")
-params=()
-cnt=0
+YCSB_HOME=${dir_local}/sources/ycsb-0.17.0/
+params_ycsb=()
 
 # Global
 
@@ -16,18 +12,21 @@ cnt=0
 ###############################################################
 
 # Functions 
-function getArg(){
-echo "If you want to skip the option, just press [ENTER]"
-for option in ${options[@]}
+function loadConfigure(){
+sed -n '/# AEROSPIKE/,/# AEROSPIKE/p' ${dir_local_conf}/ycsb.conf >tmp
+while read line
 do
-        read -p "$option(${defaults[$cnt]})=" answer
-        if [ ! -z $answer ]
-        then
-                params+="-p ${option}=${answer} "
-        fi
-	cnt=$((cnt+1))
-done
-echo $params
+    if [[ "$line" == \#* ]]; then
+      continue
+    fi
+    if [ -z "$line" ]; then
+      continue;
+    fi
+    params_ycsb+=("-p $line")
+done < tmp
+rm tmp
+
+#IFS='"'
 }
 
 function startAerospike(){
@@ -38,20 +37,19 @@ then
   echo "aerospike service is running."
 else
   echo "aerospike service is not running."
+  #
+  # To configure Aerospike server, refer to /etc/aerospike/aerospike.conf
+  #
   systemctl start aerospike
 fi
 }
 
 function runAerospike(){
-cp aerospike/src/main/java/site/ycsb/db/AerospikeClient.java aerospike/src/main/java/site/ycsb/db/AerospikeClient.java.tmp
-sed -i 's/\"ycsb\"/\"test\"/g' aerospike/src/main/java/site/ycsb/db/AerospikeClient.java
+cd $YCSB_HOME
 
-/usr/bin/time -v ${YCSB_HOME}/bin/ycsb load aerospike -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params[*]} 2>${dir_local}/evaluation/output_ycsb_aerospike_load_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_aerospike_load_"$(date "+%H:%M:%S")".txt
-
-/usr/bin/time -v ${YCSB_HOME}/bin/ycsb run aerospike -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params[*]}  2>${dir_local}/evaluation/output_ycsb_aerospike_run_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_aerospike_run_"$(date "+%H:%M:%S")".txt
-
-cp aerospike/src/main/java/site/ycsb/db/AerospikeClient.java.tmp aerospike/src/main/java/site/ycsb/db/AerospikeClient.java
-rm aerospike/src/main/java/site/ycsb/db/AerospikeClient.java.tmp
+/usr/bin/time -v ${YCSB_HOME}/bin/ycsb load aerospike -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_aerospike_load_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_aerospike_load_"$(date "+%H:%M:%S")".txt
+echo ""
+/usr/bin/time -v ${YCSB_HOME}/bin/ycsb run aerospike -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_aerospike_run_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_aerospike_run_"$(date "+%H:%M:%S")".txt
 }
 
 
@@ -60,6 +58,6 @@ rm aerospike/src/main/java/site/ycsb/db/AerospikeClient.java.tmp
 
 # Execution
 
-getArg;
+loadConfigure;
 startAerospike;
 runAerospike;

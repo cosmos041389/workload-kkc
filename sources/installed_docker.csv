@@ -1,7 +1,0 @@
-name,installed_flag,installed_format,installed_date
-btree,0,null,null
-cassandra,0,null,null
-hashjoin,0,null,null
-linpack,0,null,null
-quicksort,0,null,null
-snap,0,null,null
