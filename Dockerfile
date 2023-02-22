@@ -15,6 +15,7 @@ RUN 	sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-*; \
 	mkdir /root/workload-kkc/datasets; \
 	mkdir /root/workload-kkc/evaluation; \
 	mkdir /root/workload-kkc/scripts2; \
-	mkdir /root/workload-kkc/sources;
+	mkdir /root/workload-kkc/sources; \
+	mkdir /root/workload-kkc/conf;
 
 WORKDIR /root/workload-kkc/scripts2

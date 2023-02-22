@@ -3,6 +3,7 @@
 # Variables
 
 # Local Variable
+params_memcached=()
 params_ycsb=()
 
 # Global Variable
@@ -34,15 +35,31 @@ do
     if [ -z "$line" ]; then
       continue;
     fi
+    params_memcached+=("-p $line")
+done < tmp
+rm tmp
+
+sed -n '/# COMMON/,/# COMMON/p' ${dir_local_conf}/ycsb.conf >tmp
+while read line
+do
+    if [[ "$line" == \#* ]]; then
+      continue
+    fi
+    if [ -z "$line" ]; then
+      continue;
+    fi
     params_ycsb+=("-p $line")
 done < tmp
 rm tmp
+
+echo ${params_memcached[@]}
+echo ${params_ycsb[@]}
 }
 
 function runMemcached(){
-/usr/bin/time -v ${YCSB_HOME}/bin/ycsb load memcached -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_memcached_load_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_memcached_load_"$(date "+%H:%M:%S")".txt
+/usr/bin/time -v ${YCSB_HOME}/bin/ycsb load memcached -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_memcached[*]} ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_memcached_load_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_memcached_load_"$(date "+%H:%M:%S")".txt
 echo ""
-/usr/bin/time -v ${YCSB_HOME}/bin/ycsb run memcached -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_memcached_run_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_memcached_run_"$(date "+%H:%M:%S")".txt
+/usr/bin/time -v ${YCSB_HOME}/bin/ycsb run memcached -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_memcached[*]} ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_memcached_run_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_memcached_run_"$(date "+%H:%M:%S")".txt
 }
 
 function startMemcached(){
