@@ -134,8 +134,9 @@ function runDriver(){
 docker run -it --name instance1 -v /var/run/docker.sock:/var/run/docker.sock:ro --privileged --rm \
 -v $dir_local/datasets:$dir_container/datasets:ro \
 -v $dir_local/evaluation:$dir_container/evaluation:rw \
--v $dir_local/demo:$dir_container/scripts2:ro \
+-v $dir_local/scripts2:$dir_container/scripts2:rw \
 -v $dir_local/sources:$dir_container/sources:ro \
+-v $dir_local/conf:$dir_container/conf:ro \
 centos:common bash run_${1}2.sh
 }
 

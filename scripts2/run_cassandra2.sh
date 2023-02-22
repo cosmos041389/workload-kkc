@@ -3,6 +3,9 @@
 # Variables
 
 # Local variable
+params_cassandra=()
+params_ycsb=()
+dir_local_conf="/root/workload-kkc/conf"
 
 # Global variable
 export CONTAINER_NAME="some-cassandra"
@@ -11,26 +14,6 @@ export TABLE_NAME="usertable"
 export NETWORK_NAME="some-network"
 export EVAL_DIR="/root/workload-kkc/evaluation/"
 export DATA_DIR="/root/workload-kkc/sources/ycsb-0.17.0/workloads/"
-
-# Runtime Cassandra Parameters
-args=()
-options="
-cassandra.keyspace=
-cassandra.username=
-cassandra.password=
-cassandra.readconsistencylevel=
-cassandra.writeconsistencylevel=
-cassandra.maxconnections=
-cassandra.coreconnections=
-cassandra.connecttimeoutmillis=
-cassandra.useSSL=
-cassandra.readtimeoutmillis=
-cassandra.tracing=
-"
-threads=
-target=
-record=
-operation= 
 
 #########################################################
 #########################################################
@@ -101,30 +84,38 @@ else
 fi
 }
 
-function getArg(){
-echo "If you want to skip each option, just press [ENTER]"
-for option in ${options[@]}
+function loadConfigure(){
+sed -n '/# CASSANDRA/,/# CASSANDRA/p' ${dir_local_conf}/ycsb.conf >tmp
+while read line
 do
-        read -p "$option" answer
-        if [ ! -z $answer ]
-        then
-                args+="-p ${option}${answer} "
-        fi
-done
-read -p "threads(default: 1)=" threads
-read -p "target(default: 100)=" target
-read -p "recordcount(default: 1000)=" record
-read -p "operationcount(default: 1000)=" operation
-if [ -z $threads ]; then threads=1 ;fi
-if [ -z $target ]; then target=100 ;fi
-if [ -z $record ]; then record=1000; fi
-if [ -z $operation ]; then operation=1000; fi
-echo $args
+  if [[ "$line" == \#* ]]; then
+    continue
+  fi
+  if [ -z "$line" ]; then
+    continue
+  fi
+  params_cassandra+=("-p $line")
+done < tmp
+rm tmp
+
+sed -n '/# COMMON/,/# COMMON/p' ${dir_local_conf}/ycsb.conf >tmp
+while read line
+do
+    if [[ "$line" == \#* ]]; then
+      continue
+    fi
+    if [ -z "$line" ]; then
+      continue;
+    fi
+    params_ycsb+=("-p $line")
+done < tmp
+rm tmp
+
+echo ${params_cassandra[@]}
+echo ${params_ycsb[@]}
 }
 
 function startCassandra(){
-getArg
-
 mapfile -t files < <(ls "$DATA_DIR")
 
 for i in "${!files[@]}"; do
@@ -135,10 +126,10 @@ read -p "Choose number dataset to test: " answer
 echo "${files[answer]}"
 
 # Load YCSB workload
-/usr/bin/time -v docker run --link some-cassandra:cassandra --name temp --rm --network some-network alvarobrandon/ycsb load cassandra-cql -s -P ycsb-0.12.0/workloads/${files[answer]} -p hosts=cassandra -threads $threads -target $target -p recordcount=$record ${args[*]} 2>$EVAL_DIR/output_cassandra_load_time_"$(date "+%H:%M:%S")".txt | tee $EVAL_DIR/output_cassandra_load_"$(date "+%H:%M:%S")".txt
+/usr/bin/time -v docker run --link some-cassandra:cassandra --name temp --rm --network some-network alvarobrandon/ycsb load cassandra-cql -s -P ycsb-0.12.0/workloads/${files[answer]} ${params_cassandra[*]} ${params_ycsb[*]} 2>$EVAL_DIR/output_cassandra_load_time_"$(date "+%H:%M:%S")".txt | tee $EVAL_DIR/output_cassandra_load_"$(date "+%H:%M:%S")".txt
 
 # Run YCSB workload
-/usr/bin/time -v docker run --link some-cassandra:cassandra --name temp --rm --network some-network alvarobrandon/ycsb run cassandra-cql -s -P ycsb-0.12.0/workloads/${files[answer]} -p hosts=cassandra -threads $threads -target $target -p operationcount=$operation ${args[*]} 2>$EVAL_DIR/output_cassandra_run_time_"$(date "+%H:%M:%S")".txt | tee $EVAL_DIR/output_cassandra_run_"$(date "+%H:%M:%S")".txt
+/usr/bin/time -v docker run --link some-cassandra:cassandra --name temp --rm --network some-network alvarobrandon/ycsb run cassandra-cql -s -P ycsb-0.12.0/workloads/${files[answer]} ${params_cassandra[*]} ${params_ycsb[*]} 2>$EVAL_DIR/output_cassandra_run_time_"$(date "+%H:%M:%S")".txt | tee $EVAL_DIR/output_cassandra_run_"$(date "+%H:%M:%S")".txt
 }
 
 function stopCassandra(){
@@ -158,5 +149,6 @@ fi
 genNetwork;
 genContainer;
 genKeyspace;
+loadConfigure;
 startCassandra;
 stopCassandra;
