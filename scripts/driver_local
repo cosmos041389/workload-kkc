@@ -8,6 +8,7 @@ export dir_local_conf=$dir_local/conf
 export dir_local_datasets=$dir_local/datasets/
 export dir_local_deps=$dir_local/deps/
 export dir_local_docs=$dir_local/docs/
+export dir_local_env=$dir_local/env
 export dir_local_evaluation=$dir_local/evaluation/
 export dir_local_scripts=$dir_local/scripts/
 export dir_local_scripts2=$dir_local/scripts2/
@@ -19,8 +20,13 @@ export dir_local_temp=$dir_local/temp/
 
 # Functions
 
+function getEnv(){
+bash ${dir_local}/env/env.sh
+}
+
 function runFromDriver(){
-  bash $dir_local/scripts/run_$1.sh
+  local service_name=$1; shift
+  bash ${dir_local}/scripts/run_${service_name}.sh ${*}
 }
 function printUsage(){
   echo "Usage: $0 <init | build | run>"
@@ -30,13 +36,15 @@ function printUsage(){
 }
 function printUsageRun(){
   echo "ERROR: '$0 run' requires 1 argument at least"
-  echo "Usage: $0 run <workload1> [workload2] ..."
+  echo "Usage: $0 run <workload> [options]"
 }
 
 ##################################################################
 ##################################################################
 
 # Execution
+
+#getEnv;
 
 case $1 in
 init)
@@ -49,11 +57,9 @@ run)
   if [ $# -eq 1 ]; then
     printUsageRun;  
   else
-    for ((i=2; i<=$#; i++)); do
-      sudo bash -c "echo 3 > /proc/sys/vm/drop_caches"
-      echo "Performing ${!i} in 3 seconds."; sleep 3;
-      runFromDriver ${!i};
-    done
+    sudo bash -c "echo 3 > /proc/sys/vm/drop_caches"
+    shift;
+    runFromDriver $*;
   fi
   ;;
 *)
