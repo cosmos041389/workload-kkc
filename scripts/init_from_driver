@@ -134,6 +134,7 @@ setRepository;
 # Package Manager yum(dnf)
 checkDnf memcached libmemcached # Memcached
 checkDnf java-1.8.0-openjdk-devel ant gcc gcc-c++ python2 python3 valgrind ccache cmake bzip2 # VoltDB
+checkDnf sbt # Spark
 
 # Download
 checkSource # All binaries
