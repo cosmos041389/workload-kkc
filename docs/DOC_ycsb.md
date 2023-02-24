@@ -9,7 +9,7 @@ This script is used to run benchmark tests on an Aerospike database using the Ya
 ## Usage
 The script can be run with the following command:
 ```
-bash driver_local run ycsb_aerospike [OPTIONS]
+bash driver_local run ycsb_<Workload> [OPTIONS]
 ```
 
 ### The available options are:
