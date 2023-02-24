@@ -26,7 +26,7 @@ bash driver_local run ycsb_aerospike [OPTIONS]
 
 ### Example usage:
 ```
-bash driver_local run ycsb_memcached -w workloadb -r 500000 -o 500000 -t 8 -L -R
+bash driver_local run ycsb_aerospike -r 500000 -o 500000 -t 8 -L -R
 ```
 This command will load 500,000 records into the database, run the workloadb workload with 500,000 operations using 8 threads.
 
