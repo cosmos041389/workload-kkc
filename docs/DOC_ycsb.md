@@ -2,7 +2,7 @@
 This script is used to run benchmark tests on an Aerospike database using the Yahoo! Cloud Serving Benchmark (YCSB) tool. The script loads a specified dataset into the database and runs the workload on the database to measure performance metrics.
 
 ## Requirements
-- Aerospike server installed and running
+- Server installed and running
 - YCSB 0.17.0 installed
 - Bash shell
 
