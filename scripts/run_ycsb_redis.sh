@@ -126,7 +126,7 @@ if [ -z "$1" ] && [ -z "$2" ]; then
 fi
 
 for((i=1; i<=$#; i++));do
-  /usr/bin/time -v ${YCSB_HOME}/bin/ycsb ${!i} redis -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_redis[*]} ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_memcached_${!i}_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_memcached_${!i}_"$(date "+%H:%M:%S")".txt
+  /usr/bin/time -v ${YCSB_HOME}/bin/ycsb ${!i} redis -s -P ${dir_local}/datasets/ycsb_datasets.lnk/workloada ${params_redis[*]} ${params_ycsb[*]} 2>${dir_local}/evaluation/output_ycsb_redis_${!i}_time_"$(date "+%H:%M:%S")".txt | tee ${dir_local}/evaluation/output_ycsb_redis_${!i}_"$(date "+%H:%M:%S")".txt
 echo ""
 done
 }

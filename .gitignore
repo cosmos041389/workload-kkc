@@ -1,8 +1,10 @@
 sources/*.tgz
 sources/*.tar.gz
 sources/ycsb-0.17.0/*
+!sources/ycsb-0.17.0/aerospike-binding
 !sources/ycsb-0.17.0/cassandra-binding
 !sources/ycsb-0.17.0/memcached-binding
+!sources/ycsb-0.17.0/redis-binding
 !sources/ycsb-0.17.0/workloads
 !sources/ycsb-0.17.0/bin
 !sources/ycsb-0.17.0/lib

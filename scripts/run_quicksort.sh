@@ -4,7 +4,12 @@ set -e
 # Variable
 
 # Local
+
+# Configuration properties
 params=()
+
+# Command-line arguments
+arg=
 
 # Global
 
@@ -25,6 +30,12 @@ do
 done < ${dir_local}/conf/quicksort.conf
 }
 
+function getArguments(){
+if [ -n "$1" ] && [ "$1" -eq "$1" 2> /dev/null ]; then
+  params[0]=$1
+fi 
+}
+
 function runQuicksort(){
 cd ${dir_local}/sources/cfm/quicksort
 
@@ -37,4 +48,7 @@ cd ${dir_local}/sources/cfm/quicksort
 # Execution
 
 loadConfigure;
+set -x
+getArguments $*;
+echo ${params[*]};
 runQuicksort;

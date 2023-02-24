@@ -31,11 +31,23 @@ cd $dir_local_scripts
 bash build_graphx.sh
 }
 
+function buildBtree(){
+cd ${dir_local_sources}/mitosis-workload-btree;
+make;
+}
+
+function buildHashjoin(){
+cd ${dir_local_sources}/mitosis-workload-hashjoin;
+make;
+}
+
 function buildFromDriver(){
 buildVoltdb;
 buildQuicksort;
 buildSpark;
 buildGraphx;
+buildBtree;
+buildHashjoin;
 }
 
 ##################################################################
