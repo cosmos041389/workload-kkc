@@ -115,10 +115,11 @@ ln -s $dir_local/sources/ycsb-0.17.0/workloads $dir_local/datasets/ycsb_datasets
 
 # Spark
 ln -s $dir_local/sources/spark-3.3.2-bin-hadoop3/data/mllib ${dir_local_datasets}/spark_datasets.lnk
-echo "Links to datasets are set."
 
 # GraphX
 ln -s $dir_local/sources/spark-3.3.2-bin-hadoop3/data/graphx ${dir_local_datasets}/graphx_datasets.lnk
+
+echo "Links to datasets are set."
 }
 
 function initFromDriver(){
@@ -126,12 +127,16 @@ cd $dir_local
 
 # Resolve dependencies and sources
 checkGit # Quicksort
-checkDnf memcached libmemcached # Memcached
-checkDnf java-1.8.0-openjdk-devel ant gcc gcc-c++ python2 python3 valgrind ccache cmake bzip2 # VoltDB
-checkSource # All binaries
 
 # Set repositories to yum(dnf)
 setRepository;
+
+# Package Manager yum(dnf)
+checkDnf memcached libmemcached # Memcached
+checkDnf java-1.8.0-openjdk-devel ant gcc gcc-c++ python2 python3 valgrind ccache cmake bzip2 # VoltDB
+
+# Download
+checkSource # All binaries
 
 # Set links to datasets
 setSymbolicLink;

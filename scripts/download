@@ -59,10 +59,10 @@ function dGraphx(){
 		exit;
 	fi
 
-	if [ ! -f ${dir_local_datasets}/graphx_datasets.lnk/soc-LiveJournal1.txt ]
+	if [ ! -f ${dir_local}/sources/spark-3.3.2-bin-hadoop3/data/graphx/soc-LiveJournal1.txt ]
 	then
-		wget -P ${dir_local_datasets}/graphx_datasets.lnk/ http://snap.stanford.edu/data/soc-LiveJournal1.txt.gz
-		gunzip ${dir_local_datasets}/graphx_datasets.lnk/soc-LiveJournal1.txt.gz;
+		wget -P ${dir_local}/sources/spark-3.3.2-bin-hadoop3/data/graphx http://snap.stanford.edu/data/soc-LiveJournal1.txt.gz
+		gunzip ${dir_local}/sources/spark-3.3.2-bin-hadoop3/data/graphx/soc-LiveJournal1.txt.gz;
 	else
 		echo "Dataset already exists."
 	fi
