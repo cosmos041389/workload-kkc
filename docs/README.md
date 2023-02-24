@@ -4,7 +4,7 @@
 - `GraphX`
 - `HashJoin`
 - `Linpack`
-- `Memcached`
+- `Memcached` : [Link](https://github.com/cosmos041389/workload-kkc/blob/master/docs/DOC_memcached.md)
 - `Quicksort`
 - `Spark`
 - `VoltDB` : [Link](https://github.com/cosmos041389/workload-kkc/blob/master/docs/DOC_voltdb.md)
