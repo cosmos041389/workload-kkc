@@ -1,8 +1,0 @@
-/* this file is only for server listing and searching */
-
-
-#servername
-voltdbserver
-
-#invalidservername
-xyz

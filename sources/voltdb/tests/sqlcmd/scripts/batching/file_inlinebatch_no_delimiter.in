@@ -1,5 +1,0 @@
-drop table t if exists;
-drop table s if exists;
-
-file -inlinebatch EOF
-create table t (i integer);

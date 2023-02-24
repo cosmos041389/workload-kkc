@@ -1,7 +1,0 @@
-/bin/
-/build/
-/voltdb/
-.classpath
-.project
-src/client/*.class
-src/server/*.class

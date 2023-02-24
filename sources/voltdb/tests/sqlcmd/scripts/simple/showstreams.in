@@ -1,6 +1,0 @@
-CREATE STREAM s1 PARTITION ON COLUMN id (
-    id BIGINT NOT NULL,
-    ts TIMESTAMP
-);
-
-show streams;
