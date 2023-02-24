@@ -31,7 +31,7 @@ bash driver_local run ycsb_aerospike -r 500000 -o 500000 -t 8 -L -R
 This command will load 500,000 records into the database, run the workloadb workload with 500,000 operations using 8 threads.
 
 # Output
-The script will output the results of the benchmark test to the console and to a file in the evaluation directory of the script. The file will be named output_ycsb_aerospike_[MOD]_[TIME].txt, where [MOD] is the mode (load or run) and [TIME] is the current time. Performance metrics will be exported to a CSV file named metrics.csv in the same directory.
+The script will output the results of the benchmark test to the console and to a file in the evaluation directory of the script. The file will be named output_ycsb_aerospike_[MODE]_[TIME].txt, where [MODE] is the mode (load or run) and [TIME] is the current time. Performance metrics will be exported to a CSV file named metrics.csv in the same directory.
 
 # License
 This script is licensed under the MIT License.
