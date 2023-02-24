@@ -28,7 +28,7 @@ Example usage:
 ```
 bash driver_local run ycsb_memcached -w workloadb -r 500000 -o 500000 -t 8 -L -R
 ```
-This command will load 500,000 records into the database, run the workloadb workload with 500,000 operations using 8 threads, and export the metrics to a CSV file.
+This command will load 500,000 records into the database, run the workloadb workload with 500,000 operations using 8 threads.
 
 # Output
 The script will output the results of the benchmark test to the console and to a file in the evaluation directory of the script. The file will be named output_ycsb_aerospike_[MOD]_[TIME].txt, where [MOD] is the mode (load or run) and [TIME] is the current time. Performance metrics will be exported to a CSV file named metrics.csv in the same directory.
