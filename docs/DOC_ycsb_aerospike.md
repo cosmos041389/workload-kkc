@@ -12,7 +12,7 @@ The script can be run with the following command:
 bash driver_local run ycsb_aerospike [OPTIONS]
 ```
 
-The available options are:
+### The available options are:
 - `-w, --workload` : the YCSB workload class to use (default: com.yahoo.ycsb.workloads.CoreWorkload)
 - `-r, --recordcount` : the number of records to load into the database (default: 1000)
 - `-o, --operationcount` : the number of operations to perform (default: 1000)
@@ -24,7 +24,7 @@ The available options are:
 - `-L, --load` : flag to load the dataset into the database
 - `-R, --run` : flag to run the workload on the database
 
-Example usage:
+### Example usage:
 ```
 bash driver_local run ycsb_memcached -w workloadb -r 500000 -o 500000 -t 8 -L -R
 ```
