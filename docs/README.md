@@ -7,8 +7,8 @@
 - `Memcached`
 - `Quicksort`
 - `Spark`
-- `VoltDB`
-- `YCSB` : [Here is a link](https://github.com/cosmos041389/workload-kkc/blob/master/docs/DOC_ycsb.md)
+- `VoltDB` : [Link](https://github.com/cosmos041389/workload-kkc/blob/master/docs/DOC_voltdb.md)
+- `YCSB` : [Link](https://github.com/cosmos041389/workload-kkc/blob/master/docs/DOC_ycsb.md)
   - `Aerospike`
   - `Memcached`
   - `Redis`
