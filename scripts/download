@@ -19,7 +19,7 @@ function dAerospike(){
 	if [ ! -f "${dir_local_sources}/aerospike.rpm" ]
 	then
 	  wget -O ${dir_local_sources}/aerospike.rpm https://github.com/aerospike/aerospike-server/releases/download/6.2.0.2/aerospike-server-community-6.2.0.2-1.el8.x86_64.rpm
-	  sudo rpm -Uvh ${dir_local_sources}/aerospike.rpm
+	  sudo rpm -Uvh ${dir_local_sources}/aerospike.rpm && rm ${dir_local_sources}/aerospike.rpm
 	fi
 }
 # Apache Saprk
@@ -45,7 +45,7 @@ function dScala(){
 	if [ ! -f ${dir_local_deps}/scala.rpm ]
 	then
 	  wget -O ${dir_local_deps}/scala.rpm https://downloads.lightbend.com/scala/2.12.17/scala-2.12.17.rpm
-	  sudo rpm -Uvh ${dir_local_deps}/scala.rpm
+	  sudo rpm -Uvh ${dir_local_deps}/scala.rpm && rm ${dir_local_deps}/scala.rpm
 	fi
 }
 

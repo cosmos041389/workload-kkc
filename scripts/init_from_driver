@@ -105,6 +105,10 @@ function checkSource(){
   bash ${dir_local_scripts}/download
 }
 
+function setRepository(){
+  sudo cp ${dir_local_deps}/sbt-rpm.repo /etc/yum.repos.d/; #Spark #GraphX
+}
+
 function setSymbolicLink(){
 # YCSB
 ln -s $dir_local/sources/ycsb-0.17.0/workloads $dir_local/datasets/ycsb_datasets.lnk
@@ -126,8 +130,11 @@ checkDnf memcached libmemcached # Memcached
 checkDnf java-1.8.0-openjdk-devel ant gcc gcc-c++ python2 python3 valgrind ccache cmake bzip2 # VoltDB
 checkSource # All binaries
 
-# Set link to datasets
-setSymbolicLink
+# Set repositories to yum(dnf)
+setRepository;
+
+# Set links to datasets
+setSymbolicLink;
 }
 
 ##################################################################
