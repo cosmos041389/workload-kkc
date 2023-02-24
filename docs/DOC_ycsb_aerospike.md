@@ -13,14 +13,14 @@ bash driver_local run ycsb_aerospike [OPTIONS]
 ```
 
 The available options are:
-- `-w, --workload` : the YCSB workload to run (default: workloada)
-- `-r, --recordcount` : the number of records to load into the database (default: 100000)
-- `-o, --operationcount` : the number of operations to perform (default: 100000)
-- `-d, --db` : the name of the Aerospike namespace to use (default: test)
-- `-e, --exporter` : the type of exporter to use (default: csv)
+- `-w, --workload` : the YCSB workload class to use (default: com.yahoo.ycsb.workloads.CoreWorkload)
+- `-r, --recordcount` : the number of records to load into the database (default: 1000)
+- `-o, --operationcount` : the number of operations to perform (default: 1000)
+- `-d, --db` : the name of the Aerospike namespace to use (default: com.yahoo.ycsb.BasicDB)
+- `-e, --exporter` : the type of exporter to use (default: com.yahoo.ycsb.measurements.exporter.TextMeasurementsExporter)
 - `-E, --exportfile` : the name of the file to export metrics to (default: metrics.csv)
-- `-t, --threadcount` : the number of threads to use for the workload (default: 4)
-- `-m, --measurementtype` : the type of performance metrics to measure (default: histogram)
+- `-t, --threadcount` : the number of threads to use for the workload (default: undefined/write to stdout)
+- `-m, --measurementtype` : the type of performance metrics to measure (default: hdrhistogram)
 - `-L, --load` : flag to load the dataset into the database
 - `-R, --run` : flag to run the workload on the database
 
