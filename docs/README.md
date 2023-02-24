@@ -14,4 +14,4 @@
   - `Redis`
 ## Docker container
 - `YCSB`
-- - `Cassandra`
+  - `Cassandra`
